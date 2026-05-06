@@ -32,18 +32,19 @@ public class AS2Bridge {
     private static InputStream  in;
 
     public static void main(String[] args) throws Exception {
-        if (args.length < 5) {
-            System.err.println("Usage: AS2Bridge <host> <port> <user> <password> <command> [args...]");
+        if (args.length < 6) {
+            System.err.println("Usage: AS2Bridge <host> <port> <user> <password> <clientId> <command> [args...]");
             System.exit(1);
         }
         String host     = args[0];
         int    port     = Integer.parseInt(args[1]);
         String user     = args[2];
         String password = args[3];
-        String command  = args[4];
+        String clientId = args[4];
+        String command  = args[5];
 
         connect(host, port);
-        login(user, password);
+        login(user, password, clientId);
 
         switch (command) {
             case "ping":
@@ -53,25 +54,25 @@ public class AS2Bridge {
                 listPartners();
                 break;
             case "list_messages": {
-                int  limit        = args.length > 5  ? Integer.parseInt(args[5])  : 50;
-                int  direction    = args.length > 6  ? Integer.parseInt(args[6])  : 0;
-                long startMs      = args.length > 7  ? Long.parseLong(args[7])    : 0L;
-                long endMs        = args.length > 8  ? Long.parseLong(args[8])    : 0L;
-                boolean finished  = args.length > 9  ? Boolean.parseBoolean(args[9])  : true;
-                boolean pending   = args.length > 10 ? Boolean.parseBoolean(args[10]) : true;
-                boolean stopped   = args.length > 11 ? Boolean.parseBoolean(args[11]) : true;
-                int  messageType  = args.length > 12 ? Integer.parseInt(args[12]) : 0;
+                int  limit        = args.length > 6  ? Integer.parseInt(args[6])  : 50;
+                int  direction    = args.length > 7  ? Integer.parseInt(args[7])  : 0;
+                long startMs      = args.length > 8  ? Long.parseLong(args[8])    : 0L;
+                long endMs        = args.length > 9  ? Long.parseLong(args[9])    : 0L;
+                boolean finished  = args.length > 10 ? Boolean.parseBoolean(args[10]) : true;
+                boolean pending   = args.length > 11 ? Boolean.parseBoolean(args[11]) : true;
+                boolean stopped   = args.length > 12 ? Boolean.parseBoolean(args[12]) : true;
+                int  messageType  = args.length > 13 ? Integer.parseInt(args[13]) : 0;
                 listMessages(limit, direction, startMs, endMs, finished, pending, stopped, messageType);
                 break;
             }
             case "get_message_log":
-                getMessageLog(args[5]);
+                getMessageLog(args[6]);
                 break;
             case "get_message_payload":
-                getMessagePayload(args[5]);
+                getMessagePayload(args[6]);
                 break;
             case "download_payload":
-                downloadPayload(args[5]);
+                downloadPayload(args[6]);
                 break;
             default:
                 System.err.println("Unknown command: " + command);
@@ -104,11 +105,11 @@ public class AS2Bridge {
         readObject(); // LoginRequired
     }
 
-    static void login(String user, String password) throws Exception {
+    static void login(String user, String password, String clientId) throws Exception {
         LoginRequest req = new LoginRequest(1);
         req.setUserName(user);
         req.setPasswd(password.toCharArray());
-        req.setClientId("mendelson AS2 2024 build 598");
+        req.setClientId(clientId);
         sendObject(req);
         LoginState state = (LoginState) readObject();
         if (state.getState() != LoginState.STATE_AUTHENTICATION_SUCCESS) {

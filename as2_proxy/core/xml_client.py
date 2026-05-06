@@ -19,6 +19,7 @@ class AS2XMLClient:
         port: int = 1234,
         user: str = "admin",
         password: str = "admin",
+        client_id: str = "mendelson AS2 2024 build 598",
         timeout: float = 30.0,
         as2_home: str = "",
         java_exec: str = "java",
@@ -27,6 +28,7 @@ class AS2XMLClient:
         self.port = port
         self.user = user
         self.password = password
+        self.client_id = client_id
         self.timeout = timeout
         self.as2_home = as2_home or _default_as2_home()
         self.java_exec = java_exec
@@ -35,7 +37,7 @@ class AS2XMLClient:
         cp = _build_classpath(self.as2_home)
         cmd = [
             self.java_exec, "-cp", cp, _BRIDGE_CLASS,
-            self.host, str(self.port), self.user, self.password,
+            self.host, str(self.port), self.user, self.password, self.client_id,
             *extra_args,
         ]
         result = subprocess.run(
@@ -90,7 +92,7 @@ class AS2XMLClient:
         cp = _build_classpath(self.as2_home)
         cmd = [
             self.java_exec, "-cp", cp, _BRIDGE_CLASS,
-            self.host, str(self.port), self.user, self.password,
+            self.host, str(self.port), self.user, self.password, self.client_id,
             "download_payload", message_id,
         ]
         result = subprocess.run(

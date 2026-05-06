@@ -10,6 +10,7 @@ Required env vars:
   AS2_PASSWORD  admin password (default: admin)
 
 Optional:
+  AS2_CLIENT_ID version string the server expects (default: mendelson AS2 2024 build 598)
   AS2_JAVA      path to java executable (default: java)
   AS2_TIMEOUT   subprocess timeout in seconds (default: 30)
 """
@@ -28,6 +29,7 @@ def get_client() -> AS2XMLClient:
             port=int(os.environ.get("AS2_PORT", "1234")),
             user=os.environ.get("AS2_USER", "admin"),
             password=os.environ.get("AS2_PASSWORD", "admin"),
+            client_id=os.environ.get("AS2_CLIENT_ID", "mendelson AS2 2024 build 598"),
             timeout=float(os.environ.get("AS2_TIMEOUT", "30")),
             as2_home=os.environ.get("AS2_HOME", ""),
             java_exec=os.environ.get("AS2_JAVA", "java"),

@@ -62,15 +62,16 @@ uv sync
 
 The API reads all configuration from environment variables. Set these before starting the server.
 
-| Variable       | Required | Default     | Description                                      |
-|----------------|----------|-------------|--------------------------------------------------|
-| `AS2_HOME`     | yes      |             | Path to the Mendelson AS2 installation directory |
-| `AS2_HOST`     | yes      |             | Hostname or IP of the AS2 server                 |
-| `AS2_PORT`     | no       | `1234`      | Native client-server port (TLS)                  |
-| `AS2_USER`     | no       | `admin`     | Admin username                                   |
-| `AS2_PASSWORD` | no       | `admin`     | Admin password                                   |
-| `AS2_JAVA`     | no       | `java`      | Path to the Java executable                      |
-| `AS2_TIMEOUT`  | no       | `30`        | Subprocess timeout in seconds                    |
+| Variable         | Required | Default                          | Description                                      |
+|------------------|----------|----------------------------------|--------------------------------------------------|
+| `AS2_HOME`       | yes      |                                  | Path to the Mendelson AS2 installation directory |
+| `AS2_HOST`       | yes      |                                  | Hostname or IP of the AS2 server                 |
+| `AS2_PORT`       | no       | `1234`                           | Native client-server port (TLS)                  |
+| `AS2_USER`       | no       | `admin`                          | Admin username                                   |
+| `AS2_PASSWORD`   | no       | `admin`                          | Admin password                                   |
+| `AS2_CLIENT_ID`  | no       | `mendelson AS2 2024 build 598`   | Version string the server uses to verify the client is compatible. Must match the installed Mendelson version. |
+| `AS2_JAVA`       | no       | `java`                           | Path to the Java executable                      |
+| `AS2_TIMEOUT`    | no       | `30`                             | Subprocess timeout in seconds                    |
 
 ### 4. Start the server
 
